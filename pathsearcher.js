@@ -1,4 +1,3 @@
-//あいう
 /**
  * pathsearcher.js
  *
@@ -6,7 +5,6 @@
  *
  * @licence MIT Licence <http://www.opensource.org/licenses/mit-license.php>
  * @author  kjirou <sorenariblog[at]google[dot]com> <http://kjirou.sakura.ne.jp/mt/>
- * @charset utf-8
  */
 (function(){
 var __classScope__ = this;
