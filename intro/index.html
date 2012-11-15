@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><!--あいう-->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=8">
+<title>pathsearcher.js introduction</title>
+<script type="text/javascript" src="../pathsearcher.js" charset="utf-8"></script>
+<script type="text/javascript" src="./jquery-1.8.2.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="./demo.js" charset="utf-8"></script>
+<style type="text/css">
+pre.code {
+    padding: 5px;
+    color: #FFF;
+    background-color: #000;
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: 0px;
+}
+</style>
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1748595-5']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- /Google Analytics -->
+
+</head>
+<body>
+
+<h1>pathsearcher.js の紹介</h1>
+
+<h2>はじめに</h2>
+<div>
+<ul>
+    <li>ゲーム用の移動経路探索を行うためのJavaScriptライブラリです</li>
+    <li>例えば、<a href="http://ja.wikipedia.org/wiki/%E3%83%95%E3%82%A1%E3%82%A4%E3%82%A2%E3%83%BC%E3%82%A8%E3%83%A0%E3%83%96%E3%83%AC%E3%83%A0" target="_blank">ファイアーエムブレム</a>などに代表されるSRPGの、ユニット移動時の移動コスト計算に使うことを想定しています</li>
+    <li>上下左右のみに移動が可能な四角形マスのマップにしか対応していません、斜め移動不可、ヘックス不可</li>
+    <li>アルゴリズムは<a href="http://www.deqnotes.net/acmicpc/dijkstra/" target="_blank">ダイクストラ法</a>に完全準拠ではありません、概ね似てますが</li>
+    <li>動作はWindows7のIE8/Firefox3/Chromeのみで確認していますが、多分Macでも動くと思います</li>
+    <li><a href="https://github.com/kjirou/pathsearcher.js" target="_blank">GitHub - kjirou/pathsearcher.js</a></li>
+</ul>
+</div>
+
+<h2>更新履歴</h2>
+<div>
+<ul>
+    <li>2012-03-29(v0.1.1) 終点指定時に不要な走査をしていた点を修正</li>
+</ul>
+</div>
+
+<h2>ダウンロード・インストール</h2>
+<div>
+<ul>
+    <li>1. <a href="../pathsearcher.js">pathsearcher.jsのダウンロード</a> をします</li>
+    <li>2. 後は置くだけ</li>
+</ul>
+</div>
+
+<h2>基本的な使い方</h2>
+<div>
+    <pre class="code">// 二次元配列で表現されたあなたのゲームのマップデータ
+var yourSquares = [[マス,マス,マス, ..], [マス, ..], [マス, ..], ..];
+
+// インスタンス生成
+var ps = new PathSearcher();
+
+// あなたのマップデータを取り込み
+ps.load(yourSquares, function(あなたのマス){
+    if (あなたのマス.進入禁止条件) {
+        return false; // falseを返すと進入不可として認識される
+    };
+    return あなたのマス.移動コスト;
+});
+
+// 移動経路探索
+ps.search(始点座標, 移動力上限);
+
+// 結果インスタンス取得
+var result = ps.getResult();
+
+// 結果インスタンスを操作してデータを取得
+result.hasPathData(終点座標); // 終点に到達できるかを判定する
+result.getPathData(終点座標); // 終点に到達できるならその情報を返す
+result.getStepIndexes(終点座標); // 終点に到達できるなら経路の座標マップを返す
+// ...等々、結果操作メソッドは他にもあります</pre>
+</div>
+
+<h2>デモ</h2>
+<div>
+    <div id="board"></div>
+    <ul style="font-size:12px;">
+        <li>始点と終点をクリックして設定すると、その間の最短移動経路を表示します</li>
+        <li>始点または終点に移動不可な場所を指定した場合は解除されます</li>
+        <li>マスの数値はそれぞれ移動コストを表し、# は移動不可を表します</li>
+        <li>サンプルコードとしてはごちゃごちゃし過ぎて不適切になってしまいました</li>
+    </ul>
+</div>
+
+<h2>マニュアル</h2>
+<div>
+<a href="../pathsearcher.js">ソースコード</a> のコメントと末尾にサンプルコードがあるので、そちらを参照
+</div>
+
+<h2>参考にすれば良かったと後悔したリンク先</h2>
+<ul>
+    <li><a href="http://www.deqnotes.net/acmicpc/dijkstra/" target="_blank">ダイクストラ法（最短経路問題） - deq notes</a>
+        (ダイクストラ法の説明)</li>
+    <li><a href="http://blog.justoneplanet.info/2011/01/12/javascript%E3%81%A7%E3%83%80%E3%82%A4%E3%82%AF%E3%82%B9%E3%83%88%E3%83%A9%E6%B3%95/" target="_blank">JavaScriptでダイクストラ法</a></li>
+</ul>
+
+<h2>提供元</h2>
+<ul>
+    <li><a href="http://kjirou.sakura.ne.jp/mt/">それなりブログ</a>
+        (<a href="http://kjirou.sakura.ne.jp/mt/2012/02/pathsearcherjs.html">関連エントリ</a>)</li>
+    <li><a href="http://kjirou.net/">kjirou.net</a></li>
+</ul>
+
+</body>
+</html>
